@@ -1,5 +1,5 @@
-import React, { Children } from "react";
-import classNames from "classnames";
+import React from "react";
+import { withRouter } from "react-router";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
@@ -53,13 +53,14 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     marginTop: theme.spacing.unit * 8,
     padding: `${theme.spacing.unit * 6}px 0`,
-    display: 'flex',
-    justifyContent: 'space-around'
+    display: "flex",
+    justifyContent: "space-around",
+    flexWrap: 'wrap'
   }
 });
 
 function PageWrapper(props) {
-  const { classes, children } = props;
+  const { classes, children, history } = props;
 
   return (
     <React.Fragment>
@@ -74,18 +75,16 @@ function PageWrapper(props) {
           >
             Wildman's Spices
           </Typography>
-          <Button>Home</Button>
+          <Button onClick={()=>history.push('/')}>Home</Button>
           <Button>Contact</Button>
-          <Button>Shop</Button>
+          <Button onClick={()=>history.push('/shop')}>Shop</Button>
         </Toolbar>
       </AppBar>
-      <main className={classes.layout}>
-        {children}
-      </main>
+      <main className={classes.layout}>{children}</main>
       <footer className={classes.footer}>
         <div>
           <Typography variant="title" align="center" gutterBottom>
-            Footer
+            Hours
           </Typography>
           <Typography
             variant="subheading"
@@ -93,20 +92,44 @@ function PageWrapper(props) {
             color="textSecondary"
             component="p"
           >
-            Something here to give the footer a purpose!
+            Monday - Friday
+          </Typography>
+          <Typography
+            variant="subheading"
+            align="center"
+            color="textSecondary"
+            component="p"
+          >
+            9am-4pm
           </Typography>
         </div>
         <div>
           <Typography variant="title" align="center" gutterBottom>
-            Footer
+            Address
           </Typography>
           <Typography
             variant="subheading"
             align="center"
             color="textSecondary"
-            component="p"
+            component="a"
+            href="http://maps.google.com/?q=Wildman Spice Co"
           >
-            Something here to give the footer a purpose!
+            25956 U.S. Route 33
+            New Hampshire, Ohio 45870
+          </Typography>
+        </div>
+        <div>
+          <Typography variant="title" align="center" gutterBottom>
+          PHONE
+          </Typography>
+          <Typography
+            variant="subheading"
+            align="center"
+            color="textSecondary"
+            component="a"
+            href="tel:419.568.7531"
+          >
+            419.568.7531
           </Typography>
         </div>
       </footer>
@@ -116,7 +139,7 @@ function PageWrapper(props) {
 
 PageWrapper.propTypes = {
   classes: PropTypes.object.isRequired,
-  children: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired
 };
 
-export default withStyles(styles)(PageWrapper);
+export default withRouter(withStyles(styles)(PageWrapper));
